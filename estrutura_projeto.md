@@ -1,5 +1,5 @@
 ## Estrutura de pastas da api (Layered Architecture)
-/
+
 ├── src/
 │   ├── config/             # Configurações (DB, Variáveis de Ambiente)
 │   ├── controllers/        # Requisições e Respostas
