@@ -19,7 +19,7 @@ export class EmployeeController {
                 .transform((val) => val.replace(/\D/g, ""))
                 .refine((val) => val.length === 11, "O CPF deve ter 11 dígitos"),
             role: z
-                .enum(["admin", "cashier", "manager"], "Digite um cargo válido: admin, cashier ou manager"),
+                .enum(["admin", "cashier"], "Digite um cargo válido: admin, cashier"),
             status_id: z
                 .number("O identificador de status é obrigatório e deve ser um número")
                 .int("O identificador de status deve ser um número inteiro")

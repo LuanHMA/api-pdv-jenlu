@@ -4,7 +4,7 @@ import { Employee } from "../models/employee";
 import { CashFlow, CloseCashFlowDTO, OpenCashFlowDTO } from "../models/cash-flow";
 
 export class CashFlowRepository {
-    async openCashFlow(data: OpenCashFlowDTO): Promise<CashFlow | null> {
+    async open(data: OpenCashFlowDTO): Promise<CashFlow | null> {
         const [result] = await db.execute<ResultSetHeader>(
             "INSERT INTO cash_flow(employee_id, opening_balance, status) VALUES(?,?,?)", [data.employee_id, data.opening_balance, "open"]
         );
@@ -17,7 +17,7 @@ export class CashFlowRepository {
         return null
     }
 
-    async findOpenedCashFlow(employeeId: Employee['id']) {
+    async findById(employeeId: Employee['id']) {
         const query = `
             SELECT 
                 cf.id as id,
@@ -38,7 +38,14 @@ export class CashFlowRepository {
         return result[0]
     }
 
-    async closeCashFlow(data: CloseCashFlowDTO) {
+    async findOpened(employeeId: Employee['id']) {
+        const [result] = await db.execute<RowDataPacket[]>(
+            "SELECT 1 FROM cash_flow WHERE employee_id = ? AND status = ?", [employeeId, "open"]
+        );
+        return result[0]
+    }
+
+    async close(data: CloseCashFlowDTO) {
         const [result] = await db.execute<ResultSetHeader>(
             "UPDATE cash_flow SET close_datetime = ?, physical_balance = ?, status = ?, system_balance = ? WHERE employee_id = ? AND status = ?",
             [data.close_datetime, data.physical_balance, "closed", data.system_balance, data.employee_id, "open"]

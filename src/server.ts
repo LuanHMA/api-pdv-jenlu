@@ -4,6 +4,7 @@ import { employeeRoutes } from "./routes/employee-routes";
 import { globalErrorHandler } from "./errors/error-handler";
 import { authRoutes } from "./routes/auth-routes";
 import { cashFlowRoutes } from "./routes/cash-flow-routes";
+import { saleRoutes } from "./routes/sale-routes";
 
 const app = fastify();
 const port = 3000
@@ -17,6 +18,7 @@ app.get('/', async () => {
 app.register(employeeRoutes, { prefix: '/api/employees' })
 app.register(authRoutes, { prefix: '/api/auth' })
 app.register(cashFlowRoutes, { prefix: '/api/cash-flow' })
+app.register(saleRoutes, { prefix: '/api/sales' })
 
 app.listen({
     port
