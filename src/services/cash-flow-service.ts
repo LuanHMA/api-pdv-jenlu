@@ -20,6 +20,8 @@ export class CashFlowService {
             throw new BadRequestError("O saldo de abertura deve ser um número positivo");
         }
 
+        
+
         const result = await cashFlowRepository.openCashFlow(employeeId, openingBalance);
 
         if (!result.insertId) {

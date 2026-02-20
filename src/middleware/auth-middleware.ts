@@ -16,7 +16,13 @@ export const authMiddleware = async (request: FastifyRequest, reply: FastifyRepl
         throw new UnauthorizedError("Token de autenticação não fornecido");
     }
 
-    const token = authorization.replace("Bearer ", "");
+    const parts = authorization.split(" ");
+
+    if (parts.length !== 2 || parts[0] !== "Bearer") {
+        throw new UnauthorizedError("Formato do token inválido");
+    }
+
+    const token = parts[1];
 
     if (!token) {
         throw new UnauthorizedError("Token de autenticação não segue o formato Bearer");

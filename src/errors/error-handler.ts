@@ -1,3 +1,4 @@
+import { JsonWebTokenError } from './../../node_modules/@types/jsonwebtoken/index.d';
 import { FastifyReply, FastifyRequest } from "fastify";
 import { ZodError } from "zod";
 import { DomainError } from "./domain-errors.js";

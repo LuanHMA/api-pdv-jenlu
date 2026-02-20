@@ -1,8 +1,10 @@
 import { FastifyInstance } from 'fastify';
 import { EmployeeController } from '../controllers/employee-controller';
+import { authMiddleware } from '../middleware/auth-middleware';
 
-export async function employeeRoutes(fastify: FastifyInstance) {
+export async function employeeRoutes(route: FastifyInstance) {
     const controller = new EmployeeController();
 
-    fastify.post('/', controller.createEmployee);
+    route.addHook('preHandler', authMiddleware)
+    route.post('/', controller.createEmployee);
 }
