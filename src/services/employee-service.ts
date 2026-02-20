@@ -1,5 +1,5 @@
-import { BadRequestError, ConflictError } from "../errors/domain-errors";
-import { CreateEmployeeDTO, UpdateEmployeeDTO } from "../models/employee";
+import { BadRequestError, ConflictError, NotFoundError } from "../errors/domain-errors";
+import { CreateEmployeeDTO, Employee, UpdateEmployeeDTO } from "../models/employee";
 import { EmployeeRepository } from "../repositories/employee-repository";
 
 const employeeRepo = new EmployeeRepository();
@@ -33,17 +33,17 @@ export class EmployeeService {
         const employee = await employeeRepo.findById(id);
 
         if (!employee) {
-            throw new Error("Funcionário não encontrado");
+            throw new NotFoundError("Funcionário não encontrado");
         }
 
         return employee;
     }
 
-    async getEmployeeByCPF(cpf: string) {
+    async getEmployeeByCPF(cpf: Employee['cpf']) {
         const employee = await employeeRepo.findByCPF(cpf);
 
         if (!employee) {
-            throw new Error("Funcionário não encontrado");
+            throw new NotFoundError("Funcionário não encontrado");
         }
 
         return employee;
@@ -53,7 +53,7 @@ export class EmployeeService {
         const existingEmployee = await employeeRepo.findById(id);
 
         if (!existingEmployee) {
-            throw new Error("Funcionário não encontrado");
+            throw new NotFoundError("Funcionário não encontrado");
         }
 
         return await employeeRepo.update(id, data);
@@ -63,7 +63,7 @@ export class EmployeeService {
         const employee = await employeeRepo.findById(id);
 
         if (!employee) {
-            throw new Error("Funcionário não encontrado");
+            throw new NotFoundError("Funcionário não encontrado");
         }
 
         return await employeeRepo.delete(id);

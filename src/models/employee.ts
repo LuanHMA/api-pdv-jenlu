@@ -7,6 +7,7 @@ export interface Employee {
     status_id: number;   // Situação (FK para employee_status)
     hiring_date: string;   // Data de admissão
     salary: number;      // Salário
+    password_hashed: string; // Senha criptografada
 }
 
 // Para o cadastro (Não enviamos o ID)

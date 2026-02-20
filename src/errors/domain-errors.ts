@@ -27,3 +27,9 @@ export class BadRequestError extends DomainError {
         super(message, 400)
     }
 }
+
+export class UnauthorizedError extends DomainError {
+    constructor(message = "Não autorizado.") {
+        super(message, 401)
+    }
+}

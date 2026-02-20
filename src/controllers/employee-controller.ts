@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { EmployeeService } from "../services/employee-service";
 import z from "zod";
+import { hash } from "bcrypt";
 
 const employeeService = new EmployeeService();
 
@@ -23,6 +24,10 @@ export class EmployeeController {
                 .number("O identificador de status é obrigatório e deve ser um número")
                 .int("O identificador de status deve ser um número inteiro")
                 .positive("O identificador de status deve ser um número positivo"),
+            password: z
+                .string("A senha é obrigatória e deve ser uma string")
+                .min(6, "A senha deve ter no mínimo 6 caracteres")
+                .max(255, "A senha deve ter no máximo 255 caracteres"),
             salary: z
                 .number("O salário é obrigatório e deve ser um número")
                 .positive("O salário deve ser um número positivo"),
@@ -30,11 +35,14 @@ export class EmployeeController {
 
         const employeeData = employeeSchema.parse(request.body);
 
-        await employeeService.createEmployee(employeeData)
+        const password_hashed = await hash(employeeData.password, 10);
+
+        await employeeService.createEmployee({ ...employeeData, password_hashed });
 
         reply.status(201).send({
             message: "Funcionário criado com sucesso",
-            status: 201
+            status: 201,
+            success: true,
         });
     }
 }

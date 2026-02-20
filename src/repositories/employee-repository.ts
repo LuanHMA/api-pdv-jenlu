@@ -5,8 +5,8 @@ import { CreateEmployeeDTO, Employee, UpdateEmployeeDTO } from '../models/employ
 export class EmployeeRepository {
     async create(employee: CreateEmployeeDTO) {
         const query = `
-            INSERT INTO employee (name, cpf, role, status_id, salary)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO employee (name, cpf, role, status_id, salary, password_hashed)
+            VALUES (?, ?, ?, ?, ?, ?)
         `
 
         const [result] = await db.execute<ResultSetHeader>(query, [
@@ -14,7 +14,8 @@ export class EmployeeRepository {
             employee.cpf,
             employee.role,
             employee.status_id,
-            employee.salary
+            employee.salary,
+            employee.password_hashed
         ]);
 
         return result
