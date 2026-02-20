@@ -7,4 +7,5 @@ export async function cashFlowRoutes(route: FastifyInstance) {
 
     route.addHook("preHandler", authMiddleware)
     route.post("/open", cashFlowController.openCashFlow)
+    route.get("/opened", cashFlowController.findOpenedCashFlow)
 }

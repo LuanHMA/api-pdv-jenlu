@@ -21,12 +21,27 @@ export class CashFlowController {
 
         const cashFlowService = new CashFlowService()
 
-        await cashFlowService.openCashFlow(employeeId, opening_balance)
+        const cashFlow = await cashFlowService.openCashFlow(employeeId, opening_balance)
 
         reply.status(201).send({
             message: "Caixa aberto com sucesso",
             status: 201,
             success: true,
+            data: cashFlow
         });
+    }
+
+    async findOpenedCashFlow(req: FastifyRequest, reply: FastifyReply) {
+        const employeeId = req.userId
+
+        if (!employeeId) {
+            throw new UnauthorizedError("ID do funcionário não encontrado no token de autenticação")
+        }
+
+        const cashFlowService = new CashFlowService()
+
+        const openedCashFlow = await cashFlowService.findOpenedCashFlow(employeeId)
+
+        reply.status(200).send(openedCashFlow);
     }
 } 

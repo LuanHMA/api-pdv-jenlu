@@ -13,4 +13,4 @@ export interface CashFlow {
 export type OpenCashFlowDTO = Pick<CashFlow, 'employee_id' | 'opening_balance'>;
 
 // Fechamento de caixa
-export type CloseCashFlowDTO = Pick<CashFlow, 'physical_balance'>;
+export type CloseCashFlowDTO = Pick<CashFlow, 'physical_balance' | "employee_id" | "close_datetime" | "system_balance">;
